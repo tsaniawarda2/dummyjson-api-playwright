@@ -1,0 +1,23 @@
+{
+  "name": "dummyjson-api-playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:auth": "npx playwright test test/authentication",
+    "test:login": "npx playwright test test/authentication/login.spec.ts",
+    "report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
