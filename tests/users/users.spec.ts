@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test";
-import { ENV } from "../../config/env";
 import { UserApi } from "../../api/UserApi";
 import { userData } from "../../test-data/users";
 import { AuthApi } from "../../api/AuthApi";
