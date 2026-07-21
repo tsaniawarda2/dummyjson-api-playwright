@@ -1,9 +1,20 @@
 import test, { expect } from "@playwright/test";
 import { ENV } from "../../config/env";
+import { UserApi } from "../../api/UserApi";
+import { userData } from "../../test-data/users";
+import { AuthApi } from "../../api/AuthApi";
+import { loginData } from "../../test-data/authentication";
+
+let userApi: UserApi
+
+test.beforeEach(async ({ request }) => {
+    userApi = new UserApi(request)
+})
 
 test.describe('TS_USER_001: Get All Users', () => {
-    test('TC_USERS_001 - Get All Users', async ({ request }) => {
-        const response = await request.get('/users')
+
+    test('TC_USERS_001 - Get All Users', async () => {
+        const response = await userApi.getAllUsers()
 
         const body = await response.json()
 
@@ -12,8 +23,8 @@ test.describe('TS_USER_001: Get All Users', () => {
         expect(body.total).toBeGreaterThan(0)
     });
 
-    test('TC_USERS_002 - Get all users with parameter (limit, skip, select)', async ({ request }) => {
-        const response = await request.get('/users?limit=2&skip=5&select=firstName,age')
+    test('TC_USERS_002 - Get all users with parameter (limit, skip, select)', async () => {
+        const response = await userApi.getAllUsersWithParams()
         const body = await response.json()
 
         expect(response.status()).toBe(200)
@@ -25,42 +36,43 @@ test.describe('TS_USER_001: Get All Users', () => {
 })
 
 test.describe('TC_USER_002: Get Single User', () => {
-    test('TC_USERS_003 - Get user with valid ID', async ({ request }) => {
-        const response = await request.get('/users/3')
+    test('TC_USERS_003 - Get user with valid ID', async () => {
+        const response = await userApi.getUserById(userData.valid.id)
         const body = await response.json()
 
         expect(response.status()).toBe(200)
-        expect(body.id).toBe(3)
+        expect(body.id).toBe(userData.valid.id)
         expect(body.firstName).toBeTruthy()
     })
 
-    test('TC_USERS_004 - Get user with invalid ID', async ({ request }) => {
-        const response = await request.get('/users/1000')
+    test('TC_USERS_004 - Get user with invalid ID', async () => {
+        const response = await userApi.getUserById(userData.invalid.id)
         const body = await response.json()
 
         expect(response.status()).toBe(404)
-        expect(body.message).toBe(`User with id '1000' not found`)
+        expect(body.message).toBe(userData.invalid.message)
     })
 })
 
 test.describe('TC_USER_003: Get Current User', () => {
-    test('TC_USERS_005 - Get current user with valid token', async ({ request }) => {
-        const response = await request.get('/users/me', {
-            headers: {
-                Authorization: `Bearer ${ENV.ACCESS_TOKEN}`
-            }
-        })
+    let token: string
+    test.beforeAll(async ({ request }) => {
+        const authApi = new AuthApi(request)
+        const response = await authApi.login(loginData.valid)
         const body = await response.json()
+        token = body.accessToken
+    })
 
+    test('TC_USERS_005 - Get current user with valid token', async () => {
+        const response = await userApi.getCurrentUser(token)
+        const body = await response.json()
+        
+        
         expect(response.status()).toBe(200)
         expect(body.username).toBeTruthy()
     })
-    test('TC_USERS_006 - Get current user with invalid token', async ({ request }) => {
-        const response = await request.get('/users/me', {
-            headers: {
-                Authorization: `Bearer invalid-token`
-            }
-        })
+    test('TC_USERS_006 - Get current user with invalid token', async () => {
+        const response = await userApi.getCurrentUser('invalid-token')
         const body = await response.json()
 
         expect(response.status()).toBe(401)

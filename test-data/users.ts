@@ -3,7 +3,8 @@ export const userData = {
         id: 1,
     },
     invalid: {
-        id: 9999
+        id: 9999,
+        message:"User with id '9999' not found"
     },
     params: {
         limit: 2,

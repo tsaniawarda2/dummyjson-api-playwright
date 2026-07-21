@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
-    "test:auth": "npx playwright test test/authentication",
-    "test:user": "npx playwright test test/users",
-    "test:login": "npx playwright test test/authentication/login.spec.ts",
+    "test:auth": "npx playwright test tests/authentication",
+    "test:user": "npx playwright test tests/users",
     "report": "npx playwright show-report"
   },
   "keywords": [],
