@@ -36,10 +36,10 @@ This project automates several core API functionalities on DummyJSON, including:
 | Feature | Test Cases |
 | -------- | ---------: |
 | Authentication | 6 |
-| Users | 7 |
+| Users | 6 |
 | Products | 7 |
 | Cart | 16 |
-| **Total** | **36** |
+| **Total** | **35** |
 
 ---
 

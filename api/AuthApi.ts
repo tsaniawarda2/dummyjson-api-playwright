@@ -5,7 +5,7 @@ export class AuthApi {
   constructor(private readonly request: APIRequestContext) {}
 
   async login(payload: LoginRequest): Promise<APIResponse> {
-    return this.request.post("auth/login", {
+    return this.request.post("/auth/login", {
       data: payload,
     });
   }

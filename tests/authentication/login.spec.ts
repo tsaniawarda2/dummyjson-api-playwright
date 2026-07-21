@@ -13,6 +13,7 @@ test.describe("TS_AUTH_001: Authentication", () => {
     const response = await authApi.login(loginData.valid);
 
     const body = await response.json();
+    console.log(body.accessToken);
 
     expect(response.status()).toBe(200);
     expect(body.username).toBe(loginData.valid.username);

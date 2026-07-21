@@ -11,4 +11,5 @@ function getEnv(key: string): string {
 
 export const ENV = {
   BASE_URL: getEnv("BASE_URL"),
+  ACCESS_TOKEN: getEnv("ACCESS_TOKEN"),
 };
