@@ -23,8 +23,8 @@ test.describe("TS_PRODUCT_001: Get All Products", () => {
     const body = await response.json();
 
     expect(response.status()).toBe(200);
-    expect(body.limit).toBe(2);
-    expect(body.skip).toBe(10);
+    expect(body.limit).toBe(productData.params.limit);
+    expect(body.skip).toBe(productData.params.skip);
     expect(body.products[0]).toHaveProperty("title");
     expect(body.products[0]).toHaveProperty("category");
   });

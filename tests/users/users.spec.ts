@@ -28,8 +28,8 @@ test.describe("TS_USER_001: Get All Users", () => {
     const body = await response.json();
 
     expect(response.status()).toBe(200);
-    expect(body.limit).toBe(2);
-    expect(body.skip).toBe(5);
+    expect(body.limit).toBe(userData.params.limit);
+    expect(body.skip).toBe(userData.params.skip);
     expect(body.users[0]).toHaveProperty("firstName");
     expect(body.users[0]).toHaveProperty("age");
   });
