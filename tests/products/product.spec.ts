@@ -1,0 +1,84 @@
+import { test, expect } from "@playwright/test";
+import { ProductApi } from "../../api/ProductApi";
+import { productData } from "../../test-data/products";
+let productApi: ProductApi;
+test.beforeEach(({ request }) => {
+  productApi = new ProductApi(request);
+});
+
+test.describe("TS_PRODUCT_001: Get All Products", () => {
+  test("TC_PRODUCT_001 - Get all products", async () => {
+    const response = await productApi.getAllProducts();
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.products.length).toBeGreaterThan(0);
+    expect(body.total).toBeGreaterThan(0);
+  });
+
+  test("TC_PRODUCT_002 - Get all products with parameter (limit, skip, select)", async () => {
+    const response = await productApi.getAllProductsWithParams();
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.limit).toBe(2);
+    expect(body.skip).toBe(10);
+    expect(body.products[0]).toHaveProperty("title");
+    expect(body.products[0]).toHaveProperty("category");
+  });
+});
+
+test.describe("TS_PRODUCT_002: Get Single Product", () => {
+  test("TC_PRODUCTS_003 - Get product with valid ID", async () => {
+    const response = await productApi.getProductById(productData.valid.id);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.id).toBe(productData.valid.id);
+    expect(body.title).toBeTruthy();
+  });
+
+  test("TC_PRODUCTS_004 - Get product with invalid ID", async () => {
+    const response = await productApi.getProductById(productData.invalid.id);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(404);
+    expect(body.message).toBe(productData.invalid.message);
+  });
+});
+
+test.describe("TS_PRODUCT_003: Search Product", () => {
+  test("TC_PRODUCTS_005 - Search product with valid keyword", async () => {
+    const keyword = productData.keyword.valid.toLowerCase();
+    const response = await productApi.searchProduct(keyword);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.products.length).toBeGreaterThan(0);
+    expect(body.total).toBeGreaterThan(0);
+
+    body.products.forEach((product: any) => {
+      const text = `${product.title} ${product.description}`.toLowerCase();
+
+      expect(text).toContain(keyword);
+    });
+  });
+
+  test("TC_PRODUCTS_006 - Search product with no matching keyword", async () => {
+    const response = await productApi.searchProduct(
+      productData.keyword.invalid,
+    );
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.products).toEqual([]);
+    expect(body.products.length).toBe(0);
+    expect(body.total).toBe(0);
+  });
+});
