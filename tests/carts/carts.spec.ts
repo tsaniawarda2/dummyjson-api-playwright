@@ -34,19 +34,19 @@ test.describe("TS_CART_001: Get All Carts", () => {
 
 test.describe("TS_CART_002: Get Single Cart", () => {
   test("TC_CARTS_003 - Get cart with valid ID", async () => {
-    const id = cartData.valid.id;
-    const response = await cartApi.getCartById(id);
+    const validId = cartData.valid.id;
+    const response = await cartApi.getCartById(validId);
 
     const body = await response.json();
 
     expect(response.status()).toBe(200);
-    expect(body.id).toBe(id);
+    expect(body.id).toBe(validId);
     expect(body.products.length).toBeGreaterThan(0);
   });
 
   test("TC_CARTS_004 - Get cart with invalid ID", async () => {
-    const id = cartData.invalid.id;
-    const response = await cartApi.getCartById(id);
+    const invalidId = cartData.invalid.id;
+    const response = await cartApi.getCartById(invalidId);
 
     const body = await response.json();
 
@@ -57,22 +57,21 @@ test.describe("TS_CART_002: Get Single Cart", () => {
 
 test.describe("TS_CART_003: Get User's Carts", () => {
   test("TC_CARTS_005 - Get carts by valid user ID", async () => {
-    const id = cartData.valid.id;
+    const validId = cartData.valid.id;
 
-    const response = await cartApi.getCartByUserId(id);
+    const response = await cartApi.getCartByUserId(validId);
 
     const body = await response.json();
-    console.log(body.carts[0].userId);
 
     expect(response.status()).toBe(200);
-    expect(body.carts[0].userId).toBe(id);
+    expect(body.carts[0].userId).toBe(validId);
     expect(body.carts[0].products).toBeTruthy();
   });
 
   test("TC_CARTS_006 - Get carts by invalid user ID", async () => {
-    const id = cartData.invalid.id;
+    const invalidId = cartData.invalid.id;
 
-    const response = await cartApi.getCartByUserId(id);
+    const response = await cartApi.getCartByUserId(invalidId);
 
     const body = await response.json();
 
@@ -84,29 +83,112 @@ test.describe("TS_CART_003: Get User's Carts", () => {
 test.describe("TS_CART_004: Add Cart", () => {
   test("TC_CARTS_007 - Add cart with valid data", async () => {
     const payload: CartRequest = cartData.addCart;
-  
+
     const response = await cartApi.addNewCart(payload);
-  
+
     const body = await response.json();
-    console.log(body);
-  
+
     expect(response.status()).toBe(201);
     expect(body.userId).toBe(payload.userId);
     expect(body.products[0].id).toBe(payload.products[0].id);
     expect(body.products[0].quantity).toBe(payload.products[0].quantity);
   });
-  
+
   test("TC_CARTS_008 - Add cart with invalid user ID", async () => {
-    const payload: CartRequest = cartData.invalidAddCart;
-  
+    const payload: CartRequest = cartData.failedAddCart;
+
     const response = await cartApi.addNewCart(payload);
-  
+
     const body = await response.json();
-    console.log(response);
-    console.log(body);
-  
     expect(response.status()).toBe(404);
-    expect(body.message).toBe(cartData.invalidAddCart.message);
+    expect(body.message).toBe(cartData.failedAddCart.messageInvalidUserId);
+  });
+
+  test("TC_CARTS_009 - Add cart with empty request body", async () => {
+    const response = await cartApi.addNewCart({} as CartRequest);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(400);
+    expect(body.message).toBe(cartData.failedAddCart.messageEmptyBody);
   });
 });
 
+test.describe("TS_CART_005: Update Cart", () => {
+  test("TC_CARTS_010 - Update cart by valid cart ID", async () => {
+    const payload: CartRequest = cartData.updateCart;
+
+    const validId = cartData.valid.id;
+    const response = await cartApi.updateCartById(payload, validId);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.id).toBe(validId);
+    expect(body.products[0].id).toBe(payload.products[0].id);
+    expect(body.products[0].quantity).toBe(payload.products[0].quantity);
+  });
+
+  test("TC_CARTS_011 - Update cart by invalid cart ID", async () => {
+    const payload: CartRequest = cartData.updateCart;
+
+    const id = cartData.invalid.id;
+    const response = await cartApi.updateCartById(payload, id);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(404);
+    expect(body.message).toBe(cartData.invalid.messageInvalidCartId);
+  });
+
+  test("TC_CARTS_012 - Update cart with merge true", async () => {
+    const payload: CartRequest = cartData.updateCartMergeTrue;
+
+    const validId = cartData.valid.id;
+    const response = await cartApi.updateCartById(payload, validId);
+
+    const body = await response.json();
+    expect(response.status()).toBe(200);
+    expect(body.id).toBe(validId);
+
+    const updatedProduct = body.products.find(
+      (p: any) => p.id === payload.products[0].id,
+    );
+    expect(updatedProduct).toBeDefined();
+    expect(updatedProduct.quantity).toBe(payload.products[0].quantity);
+  });
+
+  test("TC_CARTS_013 - Update cart with empty request body", async () => {
+    const validId = cartData.valid.id;
+    const response = await cartApi.updateCartById({} as CartRequest, validId);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.id).toBe(validId);
+    expect(body.products.length).toBe(0);
+  });
+});
+
+test.describe("TS_CART_006: Delete Cart", () => {
+  test("TC_CARTS_014 - Delete cart by valid cart ID", async () => {
+    const validId = cartData.valid.id;
+    const response = await cartApi.deleteCartById(validId);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(200);
+    expect(body.id).toBe(validId);
+    expect(body.isDeleted).toBe(true);
+  });
+
+  test("TC_CARTS_015 - Delete cart by invalid cart ID", async () => {
+    const invalidId = cartData.invalid.id;
+    const response = await cartApi.deleteCartById(invalidId);
+
+    const body = await response.json();
+
+    expect(response.status()).toBe(404);
+    expect(body.message).toBe(cartData.invalid.messageInvalidCartId);
+  });
+});
