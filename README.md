@@ -38,8 +38,8 @@ This project automates several core API functionalities on DummyJSON, including:
 | Authentication | 6 |
 | Users | 6 |
 | Products | 6 |
-| Cart | 16 |
-| **Total** | **34** |
+| Cart | 15 |
+| **Total** | **33** |
 
 ---
 
