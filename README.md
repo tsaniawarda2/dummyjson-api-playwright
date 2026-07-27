@@ -126,6 +126,10 @@ npx playwright show-report
 ---
 ## 📷 HTML Report
 
+Playwright automatically generates an interactive HTML report after each test execution, making it easy to review test results, execution status, durations, and any failed test details.
+
+### Report Preview
+
 <img src="images/html-report.png" width="900">
 
 ---
