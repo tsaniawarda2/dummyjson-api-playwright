@@ -51,7 +51,6 @@ This project automates several core API functionalities on DummyJSON, including:
 - ✅ Test Data Management
 - ✅ Environment Variables (.env)
 - ✅ Response Validation
-- ✅ JSON Schema Validation *(Optional)*
 - ✅ GitHub Actions (CI/CD)
 - ✅ HTML Report
 
@@ -122,28 +121,9 @@ Open HTML Report:
 ```bash
 npx playwright show-report
 ```
-
 ---
+## 📷 HTML Report
 
-## 🔄 Continuous Integration
-
-This project uses GitHub Actions to automatically:
-
-- Install project dependencies
-- Install Playwright
-- Execute API test suites
-- Generate HTML Report
-- Upload HTML Report as a workflow artifact
-
----
-
-## 📸 Test Evidence
-
-This project generates:
-
-- HTML Report
-- API Request & Response Logs
-
----
+<img src="images/html-report.png" width="900">
 
 ✨ Built for learning REST API testing, automation best practices, and scalable Playwright API test development.
