@@ -37,20 +37,20 @@ test.describe("TS_USER_001: Get All Users", () => {
 
 test.describe("TS_USER_002: Get Single User", () => {
   test("TC_USERS_003 - Get user with valid ID", async () => {
-    const response = await userApi.getUserById(userData.valid.id);
+    const response = await userApi.getUserById(userData.valid.request.id);
     const body = await response.json();
 
-    expect(response.status()).toBe(200);
-    expect(body.id).toBe(userData.valid.id);
+    expect(response.status()).toBe(userData.valid.expected.status);
+    expect(body.id).toBe(userData.valid.request.id);
     expect(body.firstName).toBeTruthy();
   });
 
   test("TC_USERS_004 - Get user with invalid ID", async () => {
-    const response = await userApi.getUserById(userData.invalid.id);
+    const response = await userApi.getUserById(userData.invalid.request.id);
     const body = await response.json();
 
-    expect(response.status()).toBe(404);
-    expect(body.message).toBe(userData.invalid.message);
+    expect(response.status()).toBe(userData.invalid.expected.status);
+    expect(body.message).toBe(userData.invalid.expected.message);
   });
 });
 
@@ -59,7 +59,7 @@ test.describe("TS_USER_003: Get Current User", () => {
 
   test.beforeAll(async ({ request }) => {
     const authApi = new AuthApi(request);
-    const response = await authApi.login(loginData.valid);
+    const response = await authApi.login(loginData.valid.request);
     const body = await response.json();
     token = body.accessToken;
   });
@@ -71,11 +71,12 @@ test.describe("TS_USER_003: Get Current User", () => {
     expect(response.status()).toBe(200);
     expect(body.username).toBeTruthy();
   });
+
   test("TC_USERS_006 - Get current user with invalid token", async () => {
     const response = await userApi.getCurrentUser("invalid-token");
     const body = await response.json();
 
-    expect(response.status()).toBe(401);
-    expect(body.message).toBe("Invalid/Expired Token!");
+    expect(response.status()).toBe(userData.invalidToken.expected.status);
+    expect(body.message).toBe(userData.invalidToken.expected.message);
   });
 });

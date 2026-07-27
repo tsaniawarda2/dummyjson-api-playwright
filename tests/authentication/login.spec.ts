@@ -10,59 +10,62 @@ test.describe("TS_AUTH_001: Authentication", () => {
   });
 
   test("TC_LOGIN_001 - Login with valid credentials", async () => {
-    const response = await authApi.login(loginData.valid);
+    const response = await authApi.login(loginData.valid.request);
 
     const body = await response.json();
-    console.log(body.accessToken);
 
-    expect(response.status()).toBe(200);
-    expect(body.username).toBe(loginData.valid.username);
+    expect(response.status()).toBe(loginData.valid.expected.status);
+    expect(body.username).toBe(loginData.valid.expected.username);
     expect(body.accessToken).toBeTruthy();
   });
 
   test("TC_LOGIN_002 - Login with invalid username", async () => {
-    const response = await authApi.login(loginData.invalidUsername);
+    const response = await authApi.login(loginData.invalidUsername.request);
 
     const body = await response.json();
 
     // expect(response.ok()).toBeFalsy();
-    expect(response.status()).toBe(400);
-    expect(body.message).toBe("Invalid credentials");
+    expect(response.status()).toBe(
+      loginData.invalidCredentials.expected.status,
+    );
+    expect(body.message).toBe(loginData.invalidCredentials.expected.message);
   });
 
   test("TC_LOGIN_003 - Login with invalid password", async () => {
-    const response = await authApi.login(loginData.invalidPassword);
+    const response = await authApi.login(loginData.invalidPassword.request);
 
     const body = await response.json();
 
-    expect(response.status()).toBe(400);
-    expect(body.message).toBe("Invalid credentials");
+    expect(response.status()).toBe(
+      loginData.invalidCredentials.expected.status,
+    );
+    expect(body.message).toBe(loginData.invalidCredentials.expected.message);
   });
 
   test("TC_LOGIN_004 - Login without username", async () => {
-    const response = await authApi.login(loginData.withoutUsername);
+    const response = await authApi.login(loginData.withoutUsername.request);
 
     const body = await response.json();
 
-    expect(response.status()).toBe(400);
-    expect(body.message).toBe("Username and password required");
+    expect(response.status()).toBe(loginData.required.expected.status);
+    expect(body.message).toBe(loginData.required.expected.message);
   });
 
   test("TC_LOGIN_005 - Login without password", async () => {
-    const response = await authApi.login(loginData.withoutPassword);
+    const response = await authApi.login(loginData.withoutPassword.request);
 
     const body = await response.json();
 
-    expect(response.status()).toBe(400);
-    expect(body.message).toBe("Username and password required");
+    expect(response.status()).toBe(loginData.required.expected.status);
+    expect(body.message).toBe(loginData.required.expected.message);
   });
 
   test("TC_LOGIN_006 - Login with empty request body", async () => {
-    const response = await authApi.login(loginData.emptyBody);
+    const response = await authApi.login(loginData.emptyBody.request);
 
     const body = await response.json();
 
-    expect(response.status()).toBe(400);
-    expect(body.message).toBe("Username and password required");
+    expect(response.status()).toBe(loginData.required.expected.status);
+    expect(body.message).toBe(loginData.required.expected.message);
   });
 });

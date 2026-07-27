@@ -5,5 +5,7 @@ interface Product {
 
 export interface CartRequest {
   userId?: number;
-  products: Product[];
+  merge?: boolean;
+  products?: Product[];
 }
+

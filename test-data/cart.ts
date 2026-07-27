@@ -1,51 +1,96 @@
 export const cartData = {
   valid: {
-    id: 4,
+    cartId: 4,
+    userId: 2,
   },
   invalid: {
-    id: 9999,
-    messageInvalidCartId: "Cart with id '9999' not found",
-    messageInvalidUserId: "User with id '9999' not found",
+    request: {
+      cartId: 1000,
+      userId: 2000,
+    },
+    expected: {
+      status: 404,
+      cartNotFound: "Cart with id '1000' not found",
+      userNotFound: "User with id '2000' not found",
+    },
   },
   params: {
     limit: 2,
     skip: 5,
   },
+
   addCart: {
-    userId: 1,
-    products: [
-      {
-        id: 101,
-        quantity: 11,
-      },
-    ],
+    request: {
+      userId: 1,
+      products: [
+        {
+          id: 101,
+          quantity: 11,
+        },
+      ],
+    },
+    expected: {
+      status: 201,
+    },
   },
-  failedAddCart: {
-    userId: 1000,
-    products: [
-      {
-        id: 101,
-        quantity: 11,
-      },
-    ],
-    messageInvalidUserId: "User with id '1000' not found",
-    messageEmptyBody: "User id is required",
+
+  addCartInvalidUser: {
+    request: {
+      userId: 1000,
+      products: [
+        {
+          id: 101,
+          quantity: 11,
+        },
+      ],
+    },
+    expected: {
+      status: 404,
+      message: "User with id '1000' not found",
+    },
   },
+
+  addCartEmptyBody: {
+    request: {},
+    expected: {
+      status: 400,
+      message: "User id is required",
+    },
+  },
+
   updateCart: {
-    products: [
-      {
-        id: 101,
-        quantity: 5,
-      },
-    ],
+    request: {
+      products: [
+        {
+          id: 101,
+          quantity: 5,
+        },
+      ],
+    },
+    expected: {
+      status: 200,
+    },
   },
-  updateCartMergeTrue: {
-    merge: true,
-    products: [
-      {
-        id: 101,
-        quantity: 5,
-      },
-    ],
+
+  updateCartMerge: {
+    request: {
+      merge: true,
+      products: [
+        {
+          id: 101,
+          quantity: 5,
+        },
+      ],
+    },
+    expected: {
+      status: 200,
+    },
+  },
+
+  updateCartEmptyBody: {
+    request: {},
+    expected: {
+      status: 200,
+    },
   },
 };

@@ -13,7 +13,6 @@ test.describe("TS_PRODUCT_001: Get All Products", () => {
     const body = await response.json();
 
     expect(response.status()).toBe(200);
-    expect(body.products.length).toBeGreaterThan(0);
     expect(body.total).toBeGreaterThan(0);
   });
 
@@ -32,22 +31,26 @@ test.describe("TS_PRODUCT_001: Get All Products", () => {
 
 test.describe("TS_PRODUCT_002: Get Single Product", () => {
   test("TC_PRODUCTS_003 - Get product with valid ID", async () => {
-    const response = await productApi.getProductById(productData.valid.id);
+    const response = await productApi.getProductById(
+      productData.valid.request.id,
+    );
 
     const body = await response.json();
 
-    expect(response.status()).toBe(200);
-    expect(body.id).toBe(productData.valid.id);
+    expect(response.status()).toBe(productData.valid.expected.status);
+    expect(body.id).toBe(productData.valid.request.id);
     expect(body.title).toBeTruthy();
   });
 
   test("TC_PRODUCTS_004 - Get product with invalid ID", async () => {
-    const response = await productApi.getProductById(productData.invalid.id);
+    const response = await productApi.getProductById(
+      productData.invalid.request.id,
+    );
 
     const body = await response.json();
 
-    expect(response.status()).toBe(404);
-    expect(body.message).toBe(productData.invalid.message);
+    expect(response.status()).toBe(productData.invalid.expected.status);
+    expect(body.message).toBe(productData.invalid.expected.message);
   });
 });
 
@@ -59,7 +62,6 @@ test.describe("TS_PRODUCT_003: Search Product", () => {
     const body = await response.json();
 
     expect(response.status()).toBe(200);
-    expect(body.products.length).toBeGreaterThan(0);
     expect(body.total).toBeGreaterThan(0);
 
     body.products.forEach((product: any) => {

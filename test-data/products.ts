@@ -1,10 +1,20 @@
 export const productData = {
   valid: {
-    id: 3,
+    request: {
+      id: 3,
+    },
+    expected: {
+      status: 200,
+    },
   },
   invalid: {
-    id: 9999,
-    message: "Product with id '9999' not found"
+    request: {
+      id: 9999,
+    },
+    expected: {
+      status: 404,
+      message: "Product with id '9999' not found",
+    },
   },
   params: {
     limit: 2,

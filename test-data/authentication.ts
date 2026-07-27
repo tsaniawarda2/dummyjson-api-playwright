@@ -1,24 +1,53 @@
 export const loginData = {
   valid: {
-    username: "emilys",
-    password: "emilyspass",
+    request: {
+      username: "emilys",
+      password: "emilyspass",
+    },
+    expected: {
+      status: 200,
+      username: "emilys",
+    },
   },
   invalidUsername: {
-    username: "invalid-username",
-    password: "emilyspass",
+    request: {
+      username: "invalid-username",
+      password: "emilyspass",
+    },
+  },
+  invalidPassword: {
+    request: {
+      username: "emilys",
+      password: "invalid-password",
+    },
   },
 
-  invalidPassword: {
-    username: "emilys",
-    password: "invalid-password",
+  invalidCredentials: {
+    expected: {
+      status: 400,
+      message: "Invalid credentials",
+    },
   },
+
   withoutUsername: {
-    username: "",
-    password: "emilyspass",
+    request: {
+      username: "",
+      password: "emilyspass",
+    },
   },
   withoutPassword: {
-    username: "emilys",
-    password: "",
+    request: {
+      username: "emilys",
+      password: "",
+    },
   },
-  emptyBody: {},
+  emptyBody: {
+    request: {},
+  },
+  required: {
+    expected: {
+      status: 400,
+      message: "Username and password required",
+    },
+  },
 };
