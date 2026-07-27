@@ -1,4 +1,7 @@
 # 🚀 Playwright API Automation — DummyJSON
+![Playwright](https://img.shields.io/badge/Playwright-API_Testing-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
+![Node](https://img.shields.io/badge/Node.js-22-green)
 
 API automation testing project using **Playwright + TypeScript** for testing REST APIs on DummyJSON.
 
@@ -20,7 +23,7 @@ This project was created to practice and demonstrate:
 
 ## 📌 Project Overview
 
-This project automates several core API functionalities on DummyJSON, including:
+This project contains **33 automated API test cases** built with Playwright and TypeScript to validate core REST API functionalities provided by DummyJSON.
 
 - 🔐 Authentication
 - 👤 Users
@@ -46,13 +49,12 @@ This project automates several core API functionalities on DummyJSON, including:
 ## 🏗️ Framework Features
 
 - ✅ Modular Test Structure
-- ✅ API Request Context
-- ✅ Reusable Test Utilities
-- ✅ Test Data Management
+- ✅ Reusable API Classes
+- ✅ Centralized Test Data
 - ✅ Environment Variables (.env)
-- ✅ Response Validation
+- ✅ API Response Validation
 - ✅ GitHub Actions (CI/CD)
-- ✅ HTML Report
+- ✅ Playwright HTML Report
 
 ---
 
@@ -71,7 +73,7 @@ This project automates several core API functionalities on DummyJSON, including:
 Clone repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/tsaniawarda2/dummyjson-api-playwright.git
 ```
 
 Install dependencies:
@@ -125,5 +127,21 @@ npx playwright show-report
 ## 📷 HTML Report
 
 <img src="images/html-report.png" width="900">
+
+---
+## ⚙️ Continuous Integration (CI)
+
+Every push and pull request automatically triggers a GitHub Actions workflow that:
+
+- Checks out the repository
+- Installs project dependencies
+- Installs Playwright
+- Runs all API automation tests
+- Generates the Playwright HTML Report
+- Uploads the report as a workflow artifact
+
+### Workflow Execution
+
+<img src="images/github-actions.png" width="900">
 
 ✨ Built for learning REST API testing, automation best practices, and scalable Playwright API test development.
