@@ -27,8 +27,8 @@ This project contains **33 automated API test cases** built with Playwright and 
 
 - 🔐 Authentication
 - 👤 Users
-- 📦 Products
-- 🛒 Cart Management
+- 📦 Products Management
+- 🛒 Carts Management
 - 🔄 CRUD Operations
 - ✅ API Response Validation
 
@@ -40,9 +40,9 @@ This project contains **33 automated API test cases** built with Playwright and 
 | -------- | ---------: |
 | Authentication | 6 |
 | Users | 6 |
-| Products | 6 |
-| Cart | 15 |
-| **Total** | **33** |
+| Products | 14 |
+| Carts | 15 |
+| **Total** | **41** |
 
 ---
 
