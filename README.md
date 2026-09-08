@@ -144,6 +144,8 @@ Every push and pull request automatically triggers a GitHub Actions workflow tha
 - Generates the Playwright HTML Report
 - Uploads the report as a workflow artifact
 
+> **CI Note:** Since the test suite runs against the public DummyJSON API, CI execution may occasionally be affected by API rate limiting (HTTP 429).
+
 ### Workflow Execution
 
 <img src="images/github-actions.png" width="900">
