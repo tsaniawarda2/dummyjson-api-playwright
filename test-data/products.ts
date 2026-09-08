@@ -25,4 +25,44 @@ export const productData = {
     valid: "makeup",
     invalid: "loremipsum",
   },
+
+  addProduct: {
+    request: {
+      title: "Joyco Pen",
+    },
+    expected: {
+      status: 201,
+    },
+  },
+
+  addProductEmptyBody: {
+    request: {},
+    expected: {
+      status: 201,
+    },
+  },
+  addProductUnexpected: {
+    request: {
+      title: 123,
+    } as any,
+    expected: {
+      status: 201,
+    },
+  },
+  updateProduct: {
+    request: {
+      title: "iPhone Galaxy +1",
+    },
+    expected: {
+      status: 200,
+    },
+  },
+  updateProductUnexpected: {
+    request: {
+      title: 123,
+    } as any,
+    expected: {
+      status: 200,
+    },
+  },
 };

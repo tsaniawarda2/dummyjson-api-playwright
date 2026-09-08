@@ -1,5 +1,6 @@
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import { productData } from "../test-data/products";
+import { ProductRequest } from "../types/product";
 
 export class ProductApi {
   constructor(private readonly request: APIRequestContext) {}
@@ -20,5 +21,21 @@ export class ProductApi {
 
   async searchProduct(keyword: string): Promise<APIResponse> {
     return this.request.get(`/products/search?q=${keyword}`);
+  }
+
+  async addNewProduct(payload: ProductRequest) {
+    return this.request.post("/products/add", {
+      data: payload,
+    });
+  }
+
+  async updateProductById(id: number, payload: ProductRequest) {
+    return this.request.put(`/products/${id}`, {
+      data: payload,
+    });
+  }
+
+  async deleteProductById(id: number) {
+    return this.request.delete(`/products/${id}`);
   }
 }
